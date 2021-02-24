@@ -164,7 +164,7 @@ export default function Count(){
   }
 
   const handleCreatePDF = async () => {
-    await api.post("/create-pfd", { ...counts } )
+    await api.post("/create-pdf", { ...counts } )
       .then((response) => {
         if(response.status === 201){
           window.location.href= response.data.url
