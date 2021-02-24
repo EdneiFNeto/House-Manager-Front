@@ -163,6 +163,16 @@ export default function Count(){
     return `R$${Number(total).toFixed(2)}`;
   }
 
+  const handleCreatePDF = async () => {
+    await api.post("/create-pfd", { ...counts } )
+      .then((response) => {
+        if(response.status === 201){
+          window.location.href= response.data.url
+        }
+      })
+      .catch((error) => {console.log('error', error)})
+  }
+
   return(
     <>
       <SideBar />
@@ -242,6 +252,7 @@ export default function Count(){
                         <th className="text-center">Value (Discount)</th>
                         <th className="text-center">Payment</th>
                         <th className="text-center">Delete</th>
+                        <th className="text-center">PDF</th>
                       </thead>
                       <tbody>
                         {
@@ -268,6 +279,12 @@ export default function Count(){
                               <td className="text-center">
                                 <button className="btn btn-link btn-sm p-0" onClick={()=>showDialogDeleteConfirm (count) }>
                                   <i className="material-icons">delete</i>
+                                </button>
+                              </td>
+
+                              <td className="text-center">
+                                <button className="btn btn-link btn-sm p-0" onClick={()=>handleCreatePDF (count) }>
+                                  <i className="material-icons">picture_as_pdf</i>
                                 </button>
                               </td>
                             </tr>
