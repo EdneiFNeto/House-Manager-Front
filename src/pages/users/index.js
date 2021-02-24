@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Form } from "@unform/web";
 
 import SideBar from '../sidebar';
@@ -6,18 +6,37 @@ import NavBar from '../navbar';
 import Footer from '../footer';
 import Input from '../../components/Form/Input';
 import { api } from '../../service/api';
-import { swalerror, swalsuccessredirect } from '../../util/dialog/index';
+import { swalerror, swalsuccess } from '../../util/dialog/index';
 import avatar  from '../../assets/profile.png';
 
 export default function User(){
   const formRef = useRef(null);
+  const [users, setUsers] = useState([]);
+
+  useEffect(()=> {
+    getUser()
+  }, [])
+
+  async function getUser(){
+    await api.get("users")
+      .then((response)=> {
+        if(response.status === 200){
+          setUsers(response.data)
+          formRef.current.setFieldValue('name', response.data[0].name)
+          formRef.current.setFieldValue('email', response.data[0].email)
+          formRef.current.setFieldValue('password', response.data[0].password)
+        }
+      })
+      .catch((error) => console.log('error', error))
+  }
 
   async function handleSubmit(data, { reset }){
     try {
-      await api.post("/auth", { ...data })
+      const id = users[0].id
+      await api.put(`/users/${id}`, { ...data })
         .then((response)=> {
           if(response.status === 200) {
-            swalsuccessredirect('Authenticate User is Success!',false, '/painel');
+            swalsuccess('Update User is Success!', false);
           }
         })
         .catch((error) => swalerror(`${error.response.data.error}`,  true))
@@ -29,7 +48,6 @@ export default function User(){
     <>
       <SideBar />
       <div className="main-panel">
-        <NavBar />
         <div class="content">
           <div class="container-fluid">
             <div class="row">
@@ -78,12 +96,16 @@ export default function User(){
                     </a>
                   </div>
                   <div class="card-body">
-                    <h6 class="card-category text-gray">CEO / Co-Founder</h6>
-                    <h4 class="card-title">Alec Thompson</h4>
-                    <p class="card-description">
-                      Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                    </p>
-                    <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
+                    {
+                      users.map((user, index) => (
+                        <div key={index}>
+                          <h4 class="card-title">{user.name}</h4>
+                          <p class="card-description">{user.email}</p>
+                          <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
+                        </div>
+                      ))
+                    }
+
                   </div>
                 </div>
               </div>
