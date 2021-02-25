@@ -5,19 +5,16 @@ import swal from 'sweetalert';
 import  { Link } from 'react-router-dom';
 
 import SideBar from '../sidebar';
-import NavBar from '../navbar';
 import Footer from '../footer';
 import Input from '../../components/Form/Input';
 import Select from '../../components/Form/select';
 import { api } from '../../service/api';
+import { dateActual } from '../../util/date/getMonthAndYearUtil'
 
 import { swalerror, swalsuccess } from '../../util/dialog/index'
 
 export default function Count(){
-  const [typeCounts, setTypeCounts] = useState([
-    { value: '60fe8a9e-3bfd-422c-aa28-65c5d59425c0', label: 'Light' },
-    { value: '47e1001c-5a43-4bd4-a5b5-5bc0261edcd5', label: 'Cedae' },
-  ]);
+  const [typeCounts, setTypeCounts] = useState([]);
 
   const [discounts, setDiscounts] = useState([
     { value: 0.05, label: '5%'},
@@ -48,6 +45,7 @@ export default function Count(){
 
   useEffect(() => {
     getCount();
+    getTypesCount();
   }, []);
 
   const getCount = async() =>{
@@ -55,6 +53,20 @@ export default function Count(){
     .then((response) => {
       if(response.status === 200){
         setCounts(response.data);
+      }
+    })
+    .catch((error) => console.log('Error', error))
+  } 
+
+  const getTypesCount = async() =>{
+    await api.get(`/types-count`)
+    .then((response) => {
+      if(response.status === 200){
+        const arrayTypeCounts = [];
+        response.data.forEach(data => {
+          arrayTypeCounts.push({value: data.id, label: data.name})
+        });
+        setTypeCounts(arrayTypeCounts);
       }
     })
     .catch((error) => console.log('Error', error))
@@ -137,7 +149,6 @@ export default function Count(){
 
   async function handleSubmit(data, { reset }){
     try {
-      
       const dataRequest = {
         ...data,
         user_id: localStorage.getItem('id')
@@ -159,7 +170,7 @@ export default function Count(){
   const getTotalCount = () => {
     let total = 0
     if(counts.length > 0){
-      total = counts.reduce((total, count) => total + Number(count.value), 0)
+      total = counts.reduce((total, count) => total + Number(count.discount), 0)
     }
     return `R$${Number(total).toFixed(2)}`;
   }
@@ -168,7 +179,6 @@ export default function Count(){
     <>
       <SideBar />
       <div className="main-panel">
-        <NavBar />
         
         <div class="content">
           <div class="container-fluid">
@@ -176,8 +186,8 @@ export default function Count(){
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary">
-                    <h4 class="card-title">Add Counts</h4>
-                    <p class="card-category">add counts your profile</p>
+                    <h4 class="card-title">Add Account</h4>
+                    <p class="card-category">Add account your profile</p>
                   </div>
                   <div class="card-body">
                     <Form onSubmit={handleSubmit} ref={formRef}>
@@ -185,7 +195,7 @@ export default function Count(){
                         
                         <div class="col-md-12">
                           <div class="form-group">
-                            <label class="bmd-label-floating">Counts</label>
+                            <label class="bmd-label-floating">Account to the paymented</label>
                             <Select
                               name="type_id"
                               options={typeCounts}
@@ -204,7 +214,7 @@ export default function Count(){
                           <div class="form-group">
                             <label class="bmd-label-floating">Discount(R$)</label>
                             <Select
-                              name="discounts"
+                              name="discount"
                               options={discounts}
                             />
                           </div>
@@ -218,7 +228,7 @@ export default function Count(){
                         </div>
                       </div>
                       
-                      <button type="submit" class="btn btn-primary pull-right">Add Count</button>
+                      <button type="submit" class="btn btn-primary pull-right">Add Account to the paymented</button>
                       <div class="clearfix"></div>
                     </Form>
                   </div>
@@ -228,8 +238,8 @@ export default function Count(){
               <div className="col-lg-12 col-md-12">
                 <div className="card">
                   <div className="card-header card-header-warning">
-                    <h4 className="card-title">Stats Counts Users </h4>
-                    <p className="card-category">Last register on 15th September, 2016</p>
+                    <h4 className="card-title">State Account User </h4>
+                    <p className="card-category">Last register on { dateActual } </p>
                   </div>
 
                   <div className="card-body table-responsive">
@@ -239,10 +249,10 @@ export default function Count(){
                         <th className="text-left">ID</th>
                         <th className="text-center">Name</th>
                         <th className="text-center">Register Date</th>
-                        <th className="text-center">Status</th>
+                        <th className="text-center">Payment State</th>
                         <th className="text-center">Value (Real)</th>
                         <th className="text-center">Value (Discount)</th>
-                        <th className="text-center">Paymented</th>
+                        <th className="text-center">Pay</th>
                         <th className="text-center">Delete</th>
                       </thead>
                       <tbody>
@@ -260,7 +270,7 @@ export default function Count(){
                               </a>
                               </td>
                               <td className="text-center">R${count.value}</td>
-                              <td className="text-center">R${count.value}</td>
+                              <td className="text-center">R${count.discount}</td>
                               <td className="text-center">
                                 <button className="btn btn-link btn-sm p-0" onClick={()=> showDialogConfirm (count) }>
                                   <i className="material-icons">payment</i>

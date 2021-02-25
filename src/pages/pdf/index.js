@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 
+import { dateActual } from '../../util/date/getMonthAndYearUtil'
+
 export default function PDF(props){
   const [counts, setCounts] = useState([]);
-  const [dateNow, setDateNow] = useState([]);
 
   useEffect(() => {
     console.log('state', props);
@@ -21,10 +22,12 @@ export default function PDF(props){
   const getTotalCount = () => {
     let total = 0
     if(counts.length > 0){
-      total = counts.reduce((total, count) => total + Number(count.value), 0)
+      total = counts.reduce((total, count) => total + Number(count.discount), 0)
     }
     return `R$${Number(total).toFixed(2)}`;
   }
+
+  
   return (
             
     <div class="content">
@@ -32,14 +35,14 @@ export default function PDF(props){
       <div class="row">
         <div className="col-sm-12">
           <h2 className="text-center pt-4">{props.location.state.counts[0].user.name}</h2>
-          <h2 className="text-center">Month FEV/21</h2>
+          <h3 className="text-center">{ dateActual }</h3>
         </div>
 
         <div className="col-lg-12 col-md-12">
           <div className="card">
             <div className="card-header card-header-warning">
-              <h4 className="card-title">Stats Counts Users </h4>
-              <p className="card-category">Last register on 15th September, 2016</p>
+              <h4 className="card-title">State Account User</h4>
+              <p className="card-category">Last register on { dateActual }</p>
             </div>
 
             <div className="card-body table-responsive">
@@ -49,8 +52,9 @@ export default function PDF(props){
                   <th className="text-left">ID</th>
                   <th className="text-center">Name</th>
                   <th className="text-center">Register Date</th>
-                  <th className="text-center">Value (R$S)</th>
-                  <th className="text-center">Paymented</th>
+                  <th className="text-center">Value (Real)</th>
+                  <th className="text-center">Value (Discount)</th>
+                  <th className="text-center">Payment Sate</th>
                 </thead>
                 <tbody>
                   {
@@ -61,6 +65,7 @@ export default function PDF(props){
                         <td className="text-center">{count.typeCount.name}</td>
                         <td className="text-center">{format(new Date(parseISO(count.register_date)), "dd/MM/yyyy")}</td>
                         <td className="text-center">R${count.value}</td>
+                        <td className="text-center">R${count.discount}</td>
                         <td className="text-center">
                         <a role="button" className="btn btn-link btn-sm p-0" title={!count.status ? 'Pendente' : 'Pago'}>
                                 <i  className={`material-icons ${count.status ? 'text-success' : 'text-danger'}`} >
@@ -75,7 +80,7 @@ export default function PDF(props){
 
                 <tbody>
                   <tr>
-                    <td colSpan="4" className="text-left"><h4>Total</h4></td>
+                    <td colSpan="5" className="text-left"><h4>Total</h4></td>
                     <td  className="text-center"><h4 className="p-0"><strong>{getTotalCount()}</strong></h4></td>
                   </tr>
                 </tbody>

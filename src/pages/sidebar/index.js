@@ -56,6 +56,14 @@ export default function SideBar() {
             <p>Counts</p>
           </Link>
         </li>
+
+        <li className="nav-item ">
+          <Link className="nav-link" to="/type-count">
+            <i className="material-icons">account_balance_wallet</i>
+            <p>Types Counts</p>
+          </Link>
+        </li>
+
         <li className="nav-item ">
           <Link className="nav-link" to="#">
             <i className="material-icons">library_books</i>
