@@ -12,7 +12,7 @@ import { formaterNumber } from '../../util/formatter/FormatterNumerUtil';
 
 
 export default function Painel () {
-  const [countsUsers, setCounts] = useState([]);
+  const [accountToThePay, setAccountToThePay] = useState([]);
   const [totalDiscount, setTotalDiscount] = useState();
   const [totalValue, setTotalValue] = useState();
   const [totalAccontPay, setTotalAccontPay] = useState();
@@ -30,7 +30,7 @@ export default function Painel () {
         const arrayCountPay = response.data.filter((data) => { return data.status === true });
         setTotalAccount(response.data.length);
         setTotalAccontPay(arrayCountPay.length);
-        setCounts(arrayCount);
+        setAccountToThePay(arrayCount);
         setTotalDiscount(getTotalDiscount(arrayCount));
         setTotalValue(getTotalValue(arrayCount));
       }
@@ -52,7 +52,7 @@ export default function Painel () {
                 <Card 
                   icon="request_page"
                   color="warning"
-                  category="Total Account Pay"
+                  category="Total account  paymented"
                   cardTitle={`${totalAccontPay !== undefined ? totalAccontPay : 0 }/
                     ${totalAccounts !== undefined ? totalAccounts : 0 }`}
                   iconFooter="date_range"
@@ -159,7 +159,7 @@ export default function Painel () {
                       </thead>
                       <tbody>
                         {
-                          countsUsers.map((count, index) => (
+                          accountToThePay.map((count, index) => (
                             <tr key={index}>
                               <td className="text-center">{count.typeCount.name}</td>
                               <td className="text-center">{format(new Date(parseISO(count.register_date)), "dd/MM/yyyy")}</td>
@@ -180,7 +180,7 @@ export default function Painel () {
                       <tbody>
                         <tr>
                           <td colSpan="4" className="text-left"><h4>Total</h4></td>
-                          <td  className="text-center"><h4 className="p-0"><strong>{getTotal(countsUsers)}</strong></h4></td>
+                          <td  className="text-center"><h4 className="p-0"><strong>{getTotal(accountToThePay)}</strong></h4></td>
                         </tr>
                       </tbody>
                     </table>
