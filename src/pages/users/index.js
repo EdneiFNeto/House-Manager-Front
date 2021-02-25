@@ -11,20 +11,19 @@ import avatar  from '../../assets/profile.png';
 
 export default function User(){
   const formRef = useRef(null);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(undefined);
 
   useEffect(()=> {
     getUser()
   }, [])
 
   async function getUser(){
-    await api.get("users")
+    await api.get(`/users/${localStorage.getItem("id")}`)
       .then((response)=> {
         if(response.status === 200){
+          console.log('users', response.data)
           setUsers(response.data)
-          formRef.current.setFieldValue('name', response.data[0].name)
-          formRef.current.setFieldValue('email', response.data[0].email)
-          formRef.current.setFieldValue('password', response.data[0].password)
+          formRef.current.setData(response.data)
         }
       })
       .catch((error) => console.log('error', error))
@@ -97,13 +96,13 @@ export default function User(){
                   </div>
                   <div class="card-body">
                     {
-                      users.map((user, index) => (
-                        <div key={index}>
-                          <h4 class="card-title">{user.name}</h4>
-                          <p class="card-description">{user.email}</p>
+                      users !== undefined  && (
+                        <div>
+                          <h4 class="card-title">{users.name}</h4>
+                          <p class="card-description">{users.email}</p>
                           <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
                         </div>
-                      ))
+                      )
                     }
 
                   </div>
