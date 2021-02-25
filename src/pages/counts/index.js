@@ -7,14 +7,17 @@ import  { Link } from 'react-router-dom';
 import SideBar from '../sidebar';
 import Footer from '../footer';
 import Input from '../../components/Form/Input';
+import Checkbox from '../../components/Form/Checkbox';
 import Select from '../../components/Form/select';
 import { api } from '../../service/api';
 import { dateActual } from '../../util/date/getMonthAndYearUtil'
 
 import { swalerror, swalsuccess } from '../../util/dialog/index'
+const arraAccounts = []
 
 export default function Count(){
   const [typeCounts, setTypeCounts] = useState([]);
+  const [accountsSelected, setAccountsSelected] = useState([]);
 
   const [discounts, setDiscounts] = useState([
     { value: 0.05, label: '5%'},
@@ -206,6 +209,13 @@ export default function Count(){
 
   const calc = (amount, discount) => amount * (discount);
 
+  const addCountInArray = (e, count) => {
+    if(e.target.checked){
+      arraAccounts.push(count);
+      setAccountsSelected(arraAccounts);
+    }
+  } 
+
   return(
     <>
       <SideBar />
@@ -306,19 +316,26 @@ export default function Count(){
                     
                     <table className="table table-hover">
                       <thead className="text-warning">
+                        <th className="text-left">Check</th>
                         <th className="text-left">ID</th>
                         <th className="text-center">Name</th>
                         <th className="text-center">Register Date(Expiration)</th>
                         <th className="text-center">Payment State</th>
-                        <th className="text-center">Value (Real)</th>
-                        <th className="text-center">Value (Discount)</th>
                         <th className="text-center">Pay</th>
                         <th className="text-center">Delete</th>
+                        <th className="text-center">Value (Real)</th>
+                        <th className="text-center">Value (Discount)</th>
                       </thead>
                       <tbody>
                         {
                           counts.map((count, index) => (
                             <tr key={index}>
+                              
+                              <td className="text-center">
+                                <div>
+                                  <input type="checkbox"  onChange={(e) => addCountInArray(e, count)}/>
+                                </div>
+                              </td>
                               <td className="text-left">{count.id}</td>
                               <td className="text-center">{count.typeCount.name}</td>
                               <td className="text-center">{format(new Date(parseISO(count.register_date)), "dd/MM/yyyy")}</td>
@@ -329,8 +346,7 @@ export default function Count(){
                                 </i>
                               </a>
                               </td>
-                              <td className="text-center">R${count.value}</td>
-                              <td className="text-center">R${count.discount}</td>
+
                               <td className="text-center">
                                 <button className="btn btn-link btn-sm p-0" onClick={()=> showDialogConfirm (count) }>
                                   <i className="material-icons">payment</i>
@@ -342,6 +358,8 @@ export default function Count(){
                                   <i className="material-icons">delete</i>
                                 </button>
                               </td>
+                              <td className="text-center">R${count.value}</td>
+                              <td className="text-center">R${count.discount}</td>
                             </tr>
                           ))
                         }
@@ -349,15 +367,15 @@ export default function Count(){
 
                       <tbody>
                         <tr>
-                          <td colSpan="7" className="text-left"><h4>Total</h4></td>
+                          <td colSpan="8" className="text-left"><h4>Total</h4></td>
                           <td  className="text-center"><h4 className="p-0"><strong>{getTotalCount()}</strong></h4></td>
                         </tr>
                       </tbody>
 
                       <tbody>
                         <tr>
-                          <td colSpan="8" className="text-right">
-                            <Link className="btn btn-link btn-sm p-0" to={{ pathname: "/pdf", state: { counts }} }>
+                          <td colSpan="9" className="text-right">
+                            <Link className="btn btn-link btn-sm p-0" to={{ pathname: "/pdf", state: { accountsSelected }} }>
                               <h5>
                                 <i className="material-icons  md-18 ">picture_as_pdf</i> Create PDF
                               </h5>
