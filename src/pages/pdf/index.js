@@ -25,7 +25,7 @@ export default function PDF(props){
     <div class="container-fluid">
       <div class="row">
         <div className="col-sm-12">
-          <h2 className="text-center pt-4">EDNEI DE FREITAS NETO</h2>
+          <h2 className="text-center pt-4">{props.location.state.counts[0].user.name}</h2>
           <h2 className="text-center">Month FEV/21</h2>
         </div>
 
