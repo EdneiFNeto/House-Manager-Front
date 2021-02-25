@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { Form } from "@unform/web";
 import swal from 'sweetalert';
+import  { Link } from 'react-router-dom';
 
 import SideBar from '../sidebar';
 import NavBar from '../navbar';
@@ -163,21 +164,12 @@ export default function Count(){
     return `R$${Number(total).toFixed(2)}`;
   }
 
-  const handleCreatePDF = async () => {
-    await api.post("/create-pdf", { ...counts } )
-      .then((response) => {
-        if(response.status === 201){
-          window.location.href= response.data.url
-        }
-      })
-      .catch((error) => {console.log('error', error)})
-  }
-
   return(
     <>
       <SideBar />
       <div className="main-panel">
         <NavBar />
+        
         <div class="content">
           <div class="container-fluid">
             <div class="row">
@@ -252,7 +244,6 @@ export default function Count(){
                         <th className="text-center">Value (Discount)</th>
                         <th className="text-center">Payment</th>
                         <th className="text-center">Delete</th>
-                        <th className="text-center">PDF</th>
                       </thead>
                       <tbody>
                         {
@@ -281,12 +272,6 @@ export default function Count(){
                                   <i className="material-icons">delete</i>
                                 </button>
                               </td>
-
-                              <td className="text-center">
-                                <button className="btn btn-link btn-sm p-0" onClick={()=>handleCreatePDF (count) }>
-                                  <i className="material-icons">picture_as_pdf</i>
-                                </button>
-                              </td>
                             </tr>
                           ))
                         }
@@ -298,13 +283,22 @@ export default function Count(){
                           <td  className="text-center"><h4 className="p-0"><strong>{getTotalCount()}</strong></h4></td>
                         </tr>
                       </tbody>
+
+                      <tbody>
+                        <tr>
+                          <td colSpan="8" className="text-right">
+                            <Link className="btn btn-link btn-sm p-0" to={{ pathname: "/pdf", state: { counts }} }>
+                              <h5>
+                                <i className="material-icons  md-18 ">picture_as_pdf</i> Create PDF
+                              </h5>
+                            </Link>
+                          </td>
+                        </tr>
+                      </tbody>
                     </table>
-                    
                   </div>
                 </div>
               </div>
-            
-            
             </div>
           </div>
         </div>
