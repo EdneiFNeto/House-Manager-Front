@@ -21,7 +21,6 @@ export default function User(){
     await api.get(`/users/${localStorage.getItem("id")}`)
       .then((response)=> {
         if(response.status === 200){
-          console.log('users', response.data)
           setUsers(response.data)
           formRef.current.setData(response.data)
         }

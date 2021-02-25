@@ -51,7 +51,7 @@ export default function PDF(props){
                 <thead className="text-warning">
                   <th className="text-left">ID</th>
                   <th className="text-center">Name</th>
-                  <th className="text-center">Register Date</th>
+                  <th className="text-center">Register Date(Expiration)</th>
                   <th className="text-center">Value (Real)</th>
                   <th className="text-center">Value (Discount)</th>
                   <th className="text-center">Payment Sate</th>

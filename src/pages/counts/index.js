@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { format, parseISO } from 'date-fns';
 import { Form } from "@unform/web";
 import swal from 'sweetalert';
@@ -38,6 +38,19 @@ export default function Count(){
     { value: 0.95, label: '95%'},
     { value: 100.0, label: '100%'},
   ]);
+
+  const [discount, setDiscount] = useState(undefined)
+  const [value, setValue] = useState(undefined)
+  const [totalPay, setTotalPay] = useState(undefined);
+
+  const [persons, setTotalPersons] = useState([
+    {value: 0, label: 'No body'},
+    {value: 1, label: '1 Person'},
+    {value: 2, label: '2 Person'},
+    {value: 3, label: '3 Person'},
+    {value: 4, label: '4 Person'},
+    {value: 5, label: '5 Person'},
+  ]) 
   
   const [counts, setCounts] = useState([]);
 
@@ -121,7 +134,6 @@ export default function Count(){
 
     await api.put(`/counts/${count.id}`, data)
       .then((response) => {
-        console.log("ID", count.id)
         if(response.status === 204){
           swalsuccess('Payment is Success!', true);
           getCount();
@@ -136,7 +148,6 @@ export default function Count(){
     
     await api.delete(`/counts/${count.id}`)
       .then((response) => {
-        console.log("ID", count.id)
         if(response.status === 200){
           swalsuccess('DELETE is Success!', true);
           getCount();
@@ -147,12 +158,17 @@ export default function Count(){
       .catch((error) => console.log('Error', error));
   }
 
-  async function handleSubmit(data, { reset }){
+  const handleSubmit = async (data, { reset }) =>{
     try {
       const dataRequest = {
-        ...data,
+        type_id: data.type_id,
+        value: data.value,
+        discount: totalPay,
+        register_date: data.register_date,
         user_id: localStorage.getItem('id')
       }
+
+      console.log('dataRequest', dataRequest);
       await api.post("/counts", dataRequest)
         .then((response)=> {
           if(response.status === 201) {
@@ -175,27 +191,42 @@ export default function Count(){
     return `R$${Number(total).toFixed(2)}`;
   }
 
+  const calculeTotalPay = useCallback((e) => {    
+    const amount = e.target.value;
+    const result = calc(amount, discount !== undefined ? discount.value : 1);
+    setTotalPay(result);
+    setValue(amount);
+  }, [totalPay, value]);
+
+  const recalcTotalPay = useCallback((e) => {
+    setDiscount(e);
+    const amount = formRef.current.getFieldValue('value')
+    setTotalPay(calc(amount, e.value))
+  },[discount, totalPay]);
+
+  const calc = (amount, discount) => amount * (discount);
+
   return(
     <>
       <SideBar />
       <div className="main-panel">
         
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-header card-header-primary">
-                    <h4 class="card-title">Add Account Pay</h4>
-                    <p class="card-category">Add account pay your profile</p>
+        <div className="content">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="card-header card-header-primary">
+                    <h4 className="card-title">Add Account Pay</h4>
+                    <p className="card-category">Add account pay your profile</p>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <Form onSubmit={handleSubmit} ref={formRef}>
-                      <div class="row">
+                      <div className="row">
                         
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Account to the paymented</label>
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Account to the paymented</label>
                             <Select
                               name="type_id"
                               options={typeCounts}
@@ -203,33 +234,62 @@ export default function Count(){
                           </div>
                         </div>
 
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Value($R</label>
-                            <Input name="value" type="text" class="form-control" />
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Value(R$)</label>
+                            <Input name="value" type="text" 
+                              className="form-control" onChange={(e)=> {
+                                calculeTotalPay(e)
+                              }} />
                           </div>
                         </div>
 
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Discount(R$)</label>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Discount(R$)</label>
                             <Select
                               name="discount"
                               options={discounts}
+                              onChange={(e) => recalcTotalPay(e) }
                             />
                           </div>
                         </div>
 
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Date</label>
-                            <Input name="register_date" type="date" class="form-control" />
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Size Person shared pay account</label>
+                            <Select
+                              name="person"
+                              options={persons}
+                              onChange={(e) => {
+                                if(e.value <= 1){
+                                  setTotalPay(calc(value, discount.value))
+                                }
+
+                                if(totalPay !== undefined && e.value > 0)
+                                  setTotalPay(calc(value, discount.value) / e.value);
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-md-12 float">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Date</label>
+                            <Input name="register_date" type="date" className="form-control" />
+                          </div>
+                        </div>
+
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <h3 className="text-right">Total Pay
+                            <br /> {totalPay !== undefined ? `R$${Number(totalPay).toFixed(2)}` : `R$0,00`}</h3>
                           </div>
                         </div>
                       </div>
                       
-                      <button type="submit" class="btn btn-primary pull-right">Add Account to the Pay</button>
-                      <div class="clearfix"></div>
+                      <button type="submit" className="btn btn-primary pull-right">Add Account to the Pay</button>
+                      <div className="clearfix"></div>
                     </Form>
                   </div>
                 </div>
@@ -248,7 +308,7 @@ export default function Count(){
                       <thead className="text-warning">
                         <th className="text-left">ID</th>
                         <th className="text-center">Name</th>
-                        <th className="text-center">Register Date</th>
+                        <th className="text-center">Register Date(Expiration)</th>
                         <th className="text-center">Payment State</th>
                         <th className="text-center">Value (Real)</th>
                         <th className="text-center">Value (Discount)</th>

@@ -16,7 +16,6 @@ function SignIn() {
       await api.post("/auth", { ...data })
         .then((response)=> {
           if(response.status === 200) {
-            console.log("user", response.data.user.id)
             localStorage.setItem("id", response.data.user.id)
             swalsuccessredirect('Authenticate User is Success!',false, '/painel');
           }
