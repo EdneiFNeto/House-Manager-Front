@@ -53,14 +53,14 @@ export default function SideBar() {
         <li className="nav-item ">
           <Link className="nav-link" to="/counts">
             <i className="material-icons">paid</i>
-            <p>Counts</p>
+            <p>account pay</p>
           </Link>
         </li>
 
         <li className="nav-item ">
           <Link className="nav-link" to="/type-count">
             <i className="material-icons">account_balance_wallet</i>
-            <p>Types Counts</p>
+            <p>Types account pay</p>
           </Link>
         </li>
 

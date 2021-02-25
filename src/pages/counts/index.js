@@ -186,8 +186,8 @@ export default function Count(){
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary">
-                    <h4 class="card-title">Add Account</h4>
-                    <p class="card-category">Add account your profile</p>
+                    <h4 class="card-title">Add Account Pay</h4>
+                    <p class="card-category">Add account pay your profile</p>
                   </div>
                   <div class="card-body">
                     <Form onSubmit={handleSubmit} ref={formRef}>
@@ -228,7 +228,7 @@ export default function Count(){
                         </div>
                       </div>
                       
-                      <button type="submit" class="btn btn-primary pull-right">Add Account to the paymented</button>
+                      <button type="submit" class="btn btn-primary pull-right">Add Account to the Pay</button>
                       <div class="clearfix"></div>
                     </Form>
                   </div>

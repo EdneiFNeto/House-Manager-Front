@@ -15,7 +15,7 @@ export default function TypesCounts(){
     { value: 'Água', label: 'Cedae' },
     { value: 'Credit Card', label: 'Credit Card' }
   ]);
-  
+
   const [typeCounts, setTypesCounts] = useState([]);
 
   const formRef = useRef(null);
@@ -96,7 +96,7 @@ export default function TypesCounts(){
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary">
-                    <h4 class="card-title">Add accounts payments </h4>
+                    <h4 class="card-title">Add types accounts pay </h4>
                     <p class="card-category">Add accounts payments your profiles</p>
                   </div>
                   <div class="card-body">
