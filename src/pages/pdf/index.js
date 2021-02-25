@@ -7,7 +7,13 @@ export default function PDF(props){
 
   useEffect(() => {
     console.log('state', props);
-    setCounts(props.location.state.counts)
+    const arrayCounts = []
+    props.location.state.counts.forEach(count => {
+      if(count.status === false) {
+        arrayCounts.push(count)
+      }
+    });
+    setCounts(arrayCounts)
   }, [props])
 
   
@@ -49,6 +55,7 @@ export default function PDF(props){
                 <tbody>
                   {
                     counts.map((count, index) => (
+                      
                       <tr key={index}>
                         <td className="text-left">{count.id}</td>
                         <td className="text-center">{count.typeCount.name}</td>
