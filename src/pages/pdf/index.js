@@ -2,32 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 
 import { dateActual } from '../../util/date/getMonthAndYearUtil'
+import { getTotal } from '../../util/aritmetic/TotalUtil';
 
 export default function PDF(props){
   const [counts, setCounts] = useState([]);
 
   useEffect(() => {
-    console.log('state', props);
     const arrayCounts = []
     props.location.state.counts.forEach(count => {
       if(count.status === false) {
         arrayCounts.push(count)
       }
     });
-    setCounts(arrayCounts)
-  }, [props])
+    setCounts(arrayCounts);
+  }, [props]);
 
-  
-
-  const getTotalCount = () => {
-    let total = 0
-    if(counts.length > 0){
-      total = counts.reduce((total, count) => total + Number(count.discount), 0)
-    }
-    return `R$${Number(total).toFixed(2)}`;
-  }
-
-  
   return (
             
     <div class="content">
@@ -81,7 +70,7 @@ export default function PDF(props){
                 <tbody>
                   <tr>
                     <td colSpan="5" className="text-left"><h4>Total</h4></td>
-                    <td  className="text-center"><h4 className="p-0"><strong>{getTotalCount()}</strong></h4></td>
+                    <td  className="text-center"><h4 className="p-0"><strong>{getTotal(counts)}</strong></h4></td>
                   </tr>
                 </tbody>
               </table>
