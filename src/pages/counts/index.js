@@ -242,7 +242,7 @@ export default function Count(){
                         <th className="text-center">Status</th>
                         <th className="text-center">Value (Real)</th>
                         <th className="text-center">Value (Discount)</th>
-                        <th className="text-center">Payment</th>
+                        <th className="text-center">Paymented</th>
                         <th className="text-center">Delete</th>
                       </thead>
                       <tbody>

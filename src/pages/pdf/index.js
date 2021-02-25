@@ -44,7 +44,7 @@ export default function PDF(props){
                   <th className="text-center">Name</th>
                   <th className="text-center">Register Date</th>
                   <th className="text-center">Value (R$S)</th>
-                  <th className="text-center">Payment</th>
+                  <th className="text-center">Paymented</th>
                 </thead>
                 <tbody>
                   {
