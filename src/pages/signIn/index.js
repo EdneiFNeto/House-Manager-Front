@@ -5,8 +5,7 @@ import  { Link } from 'react-router-dom';
 import { api } from '../../service/api';
 import { Form } from "@unform/web";
 import Input from '../../components/Form/Input';
-import { swalerror, swalsuccessredirect } from '../../util/dialog/index'
-
+import { swalerror, swalsuccessredirect } from '../../util/dialog/index';
 
 function SignIn() {
   const formRef = useRef(null);
@@ -31,39 +30,39 @@ function SignIn() {
   }
 
   return <>
-    <div className="container row">
-      <div className="col-sm-12">
-        <h1 className="text-center mt-4">Sign In</h1>
-      </div>
-      <div className="col-sm-12">
-        
-        <Form onSubmit={handleSubmit} ref={formRef}>
-          <div className="form-group">
-            <label htmlFor="card-email">E-mail</label>
-            <Input name="email" className="form-control" type="email" />
-          </div>
-          <div className="form-group">
-            <div className="d-flex justify-content-between">
-              <label htmlFor="card-password">Password</label>
+    <div className="page">
+      <div className="main">
+        <div className="main-wrapper">
+          <div className="login-methods">
+            <div className="login-methods-signup text-gold btn-gray ">
+              <Link to="/register" className="btn btn-link "> Register </Link>
             </div>
-            <Input name="password" className="form-control" type="password" />
           </div>
-          <div className="form-group">
-            <button
-              className="btn btn-primary btn-block mt-3"
-              type="submit">
-                Sign In
-            </button>
-          </div>
-        </Form>
+          
+          <Form onSubmit={handleSubmit} ref={formRef}>
 
-        <div className="form-group">
-          <Link to="/register" className="btn btn-primary btn-block mt-3"> Register </Link>
+
+            <div className="form-body">
+                <Input name="email" className="input" type="email" 
+                  placeholder="E-mail" />
+                <Input name="password" className="input" type="password"
+                  placeholder="Password" />
+              <button type="submit">Sign In</button>
+            </div>
+
+            <div className="form-message">
+              <div className="form-message-title">
+                <h1>welcome</h1>
+              </div>
+              <div className="form-message-body">
+                <h3>Hello, wellcome in the House Manager</h3>
+              </div>
+            </div>
+          </Form>
         </div>
       </div>
     </div>
   </>
-
 }
 
 export default SignIn;

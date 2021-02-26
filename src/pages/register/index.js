@@ -1,11 +1,10 @@
 import React, { useRef } from "react";
-
-import './style.scss';
+import  { Link } from 'react-router-dom';
 import { api } from '../../service/api';
 
 import { Form } from "@unform/web";
 import Input from '../../components/Form/Input';
-import { swalerror, swalsuccess } from '../../util/dialog/index'
+import { swalerror, swalsuccessredirect } from '../../util/dialog/index'
 
 function Register() {
   const formRef = useRef(null);
@@ -15,7 +14,7 @@ function Register() {
       await api.post("/users", { ...data })
         .then((response)=> {
           if(response.status === 201) {
-            swalsuccess("Success register user!", true)
+            swalsuccessredirect("Success register user", true, '/')
             reset();
           }
         })
@@ -25,41 +24,43 @@ function Register() {
     }
   }
 
+
   return <>
-    <div className="container row">
-      <h1 className="col-sm-12 text-center">Register</h1>
-      <div className="col-sm-12">
-        <Form onSubmit={handleSubmit} ref={formRef}>
-          <div className="form-group">
-            <label htmlFor="card-email">User</label>
-            <Input name="name" className="form-control" type="text" />
+    <div className="page">
+      <div className="main">
+        <div className="main-wrapper">
+          <div className="login-methods">
+            <div className="login-methods-signup text-gold btn-gray ">
+              <Link to="/" className="btn btn-link "> Back </Link>
+            </div>
           </div>
           
-          <div className="form-group">
-            <div className="d-flex justify-content-between">
-              <label htmlFor="card-password">E-mail</label>
+          <Form onSubmit={handleSubmit} ref={formRef}>
+            <div className="form-body">
+                <Input name="name" className="input" type="text" 
+                  placeholder="Name Profile" />
+                
+                <Input name="email" className="input" type="email" 
+                  placeholder="E-mail" />
+                
+                <Input name="password" className="input" type="password"
+                  placeholder="Password" />
+              <button type="submit">Register</button>
             </div>
-            <Input name="email" className="form-control" type="email" />
-          </div>
 
-          <div className="form-group">
-            <div className="d-flex justify-content-between">
-              <label htmlFor="card-password">Password</label>
+
+            <div className="form-message">
+              <div className="form-message-title">
+                <h1>Register</h1>
+              </div>
+              <div className="form-message-body">
+                <h3>Register your profile and of Team</h3>
+              </div>
             </div>
-            <Input name="password" className="form-control" type="password" />
-          </div>
-
-          <div className="form-group">
-            <button
-              className="btn btn-primary btn-block mt-3"
-              type="submit">
-                Register
-            </button>
-          </div>
-        </Form>
+          </Form>
+        </div>
       </div>
     </div>
-
   </>
 }
 
