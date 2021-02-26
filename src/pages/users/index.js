@@ -47,60 +47,60 @@ export default function User(){
     <>
       <SideBar />
       <div className="main-panel">
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-8">
-                <div class="card">
-                  <div class="card-header card-header-primary">
-                    <h4 class="card-title">Edit Profile</h4>
-                    <p class="card-category">Complete your profile</p>
+        <div className="content">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-8">
+                <div className="card">
+                  <div className="card-header card-header-primary">
+                    <h4 className="card-title">Edit Profile</h4>
+                    <p className="card-category">Complete your profile</p>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <Form onSubmit={handleSubmit} ref={formRef}>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Name</label>
-                            <Input name="name" type="text" class="form-control" />
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Name</label>
+                            <Input name="name" type="text" className="form-control" />
                           </div>
                         </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">E-mail</label>
-                            <Input name="email" type="text" class="form-control" />
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">E-mail</label>
+                            <Input name="email" type="text" className="form-control" />
                           </div>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Password</label>
-                            <Input type="password" class="form-control" name="password" />
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Password</label>
+                            <Input type="password" className="form-control" name="password" />
                           </div>
                         </div>
                       </div>
                       
-                      <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
-                      <div class="clearfix"></div>
+                      <button type="submit" className="btn btn-primary pull-right">Update Profile</button>
+                      <div className="clearfix"></div>
                     </Form>
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="card card-profile">
-                  <div class="card-avatar">
+              <div className="col-md-4">
+                <div className="card card-profile">
+                  <div className="card-avatar">
                     <a href="javascript:;">
-                      <img class="img" src={avatar} />
+                      <img className="img" src={avatar} />
                     </a>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     {
                       users !== undefined  && (
                         <div>
-                          <h4 class="card-title">{users.name}</h4>
-                          <p class="card-description">{users.email}</p>
-                          <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
+                          <h4 className="card-title">{users.name}</h4>
+                          <p className="card-description">{users.email}</p>
+                          <a href="javascript:;" className="btn btn-primary btn-round">Follow</a>
                         </div>
                       )
                     }
