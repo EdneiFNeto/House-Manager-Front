@@ -28,13 +28,14 @@ export default function User(){
       .catch((error) => console.log('error', error))
   }
 
-  async function handleSubmit(data, { reset }){
+  async function handleSubmit(data){
     try {
-      const id = users[0].id
+      const id = users.id
       await api.put(`/users/${id}`, { ...data })
         .then((response)=> {
-          if(response.status === 200) {
+          if(response.status === 204) {
             swalsuccess('Update User is Success!', false);
+            getUser();
           }
         })
         .catch((error) => swalerror(`${error.response.data.error}`,  true))

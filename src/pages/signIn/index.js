@@ -16,7 +16,11 @@ function SignIn() {
       await api.post("/auth", { ...data })
         .then((response)=> {
           if(response.status === 200) {
-            localStorage.setItem("id", response.data.user.id)
+            console.log(response.data)
+            console.log('token', response.data.token);
+
+            localStorage.setItem("id", response.data.user.id);
+            localStorage.setItem("token", response.data.token);
             swalsuccessredirect('Authenticate User is Success!',false, '/painel');
           }
         })
