@@ -32,7 +32,7 @@ export default function SideBar() {
       
     <div className="logo">
       <Link to="#" className="simple-text logo-normal">
-        Contas da Casa
+        House Manager
       </Link>
     </div>
     
