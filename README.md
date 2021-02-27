@@ -26,4 +26,4 @@ de contas vencidas.
 - [creative-tim](https://www.creative-tim.com/)
 
 ## API
--[API-BACK](https://github.com/EdneiFNeto/House-Manager-back)
+Api Utilizado para realizar as consultas, cadastro e edições [House-Manager-Back](https://github.com/EdneiFNeto/House-Manager-back).
