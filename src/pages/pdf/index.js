@@ -6,6 +6,11 @@ import { getTotal } from '../../util/aritmetic/TotalUtil';
 
 export default function PDF(props){
   const [counts, setCounts] = useState([]);
+  const [diference, setDiference] = useState();
+  const [obs, setObs] = useState();
+  const [cedae, setCedae] = useState();
+  const [valueCedae, setValueCedae] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const arrayCounts = []
@@ -17,12 +22,40 @@ export default function PDF(props){
     setCounts(arrayCounts);
   }, [props]);
 
+  useEffect(()=> {
+    getValueReal();
+  }, [counts])
+
+  const getValueReal = () => {
+    
+    const user = counts.map((c)=> {return c.user.name} )[0]
+    const cedae = counts.filter((c)=> c.typeCount.name === 'Água'  )[0]
+    const light = counts.filter((c)=> c.typeCount.name === 'Light'  )[0]
+    
+    if(cedae !== undefined && light !== undefined ){
+      
+      setUser(user)
+      setCedae(cedae.typeCount.name)
+      setValueCedae(cedae.value)
+
+      const calc = cedae.value - getTotal(counts)
+      const text = `(${cedae.typeCount.name}) R$${cedae.value} - (Total) R$${getTotal(counts)} = R$${Number(calc).toFixed(2)}`
+      
+      setObs(text)
+      setDiference(Number(calc).toFixed(2))
+    }
+  }
+
+  
+  
+  
+
   return (
     <div class="content">
       <div class="container-fluid">
         <div class="row">
           <div className="col-sm-12">
-            <h2 className="text-center pt-4">{ counts.length > 0 && counts[0].user.name }</h2>
+            <h2 className="text-center pt-4">{ counts.length > 0 && user }</h2>
             <h3 className="text-center">{ dateActual }</h3>
           </div>
 
@@ -69,13 +102,31 @@ export default function PDF(props){
                   <tbody>
                     <tr>
                       <td colSpan="5" className="text-left"><h4>Total</h4></td>
-                      <td  className="text-center"><h4 className="p-0"><strong>{getTotal(counts)}</strong></h4></td>
+                      <td  className="text-center"><h4 className="p-0"><strong>R${getTotal(counts)}</strong></h4></td>
                     </tr>
                   </tbody>
                 </table>
-                
               </div>
+            
+                { diference !== undefined && obs!== undefined && user === 'Rodrigo' &&
+                  <div className="form-group pl-4 pr-4">
+                    <label className="bmd-label-floating h3">OBS*</label>
+                        <p className="h4" style={{color:'red'}}><strong>
+                            Diferença: {obs} 
+                        </strong>
+                        </p>
+                    <p className="h4">*Você vai pegar o valor (Total) 
+                      {" "}<strong>R${ getTotal(counts) }</strong> + (Diferença) 
+                      {" "}<strong>R${ diference }</strong> 
+                      {" "}e pagar a conta de <strong> { cedae } </strong> com o valor de <strong>R${ valueCedae }.</strong> 
+                    </p>
+                  </div>
+                }
             </div>
+          </div>
+
+          <div className="col-sm-12">
+            
           </div>
         </div>
       </div>
