@@ -272,12 +272,16 @@ export default function Count(){
                               name="person"
                               options={persons}
                               onChange={(e) => {
-                                if(e.value <= 1){
-                                  setTotalPay(calc(value, discount.value))
-                                }
+                                if(e!== undefined){
 
-                                if(totalPay !== undefined && e.value > 0)
-                                  setTotalPay(calc(value, discount.value) / e.value);
+                                  if(e.value <= 1){
+                                    setTotalPay(calc(value, discount === undefined ? 1 : discount.value))
+                                  }
+                                  
+                                  if(totalPay !== undefined && e.value > 0){
+                                    setTotalPay(calc(value, discount !== undefined ? discount.value : 1) / e.value);
+                                  }
+                                }
                               }}
                             />
                           </div>
