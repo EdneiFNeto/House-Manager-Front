@@ -27,26 +27,26 @@ export default function PDF(props){
   }, [counts])
 
   const getValueReal = () => {
-    
-    const user = counts.map((c)=> {return c.user.name} )[0]
-    const cedae = counts.filter((c)=> c.typeCount.name === 'Água'  )[0]
-    const light = counts.filter((c)=> c.typeCount.name === 'Light'  )[0]
-    
-    if(cedae !== undefined && light !== undefined ){
+
+      const user = counts.map((c)=> {return c.user.name} )[0]
+      const cedae = counts.filter((c)=> c.typeCount.name === 'Água'  )[0]
+      const light = counts.filter((c)=> c.typeCount.name === 'Light'  )[0]
       
       setUser(user)
-      setCedae(cedae.typeCount.name)
-      setValueCedae(cedae.value)
-
-      const calc = cedae.value - getTotal(counts)
-      const text = `(${cedae.typeCount.name}) R$${cedae.value} - (Total) R$${getTotal(counts)} = R$${Number(calc).toFixed(2)}`
       
-      setObs(text)
-      setDiference(Number(calc).toFixed(2))
+      if(cedae !== undefined && light !== undefined ){
+      
+        setCedae(cedae.typeCount.name)
+        setValueCedae(cedae.value)
+        
+        const calc = cedae.value - getTotal(counts)
+        const text = `(${cedae.typeCount.name}) R$${cedae.value} - (Total) R$${getTotal(counts)} = R$${Number(calc).toFixed(2)}`
+        
+        setObs(text)
+        setDiference(Number(calc).toFixed(2))
     }
   }
 
-  
   
   
 
@@ -55,7 +55,7 @@ export default function PDF(props){
       <div class="container-fluid">
         <div class="row">
           <div className="col-sm-12">
-            <h2 className="text-center pt-4">{ counts.length > 0 && user }</h2>
+            <h2 className="text-center pt-4">{ user }</h2>
             <h3 className="text-center">{ dateActual }</h3>
           </div>
 
