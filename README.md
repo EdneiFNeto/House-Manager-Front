@@ -27,3 +27,6 @@ Templete utilizado como exemplo para desenvolvimento do front da aplicação [cr
 
 ## API
 Api Utilizado para realizar as consultas, cadastro e edições [House-Manager-Back](https://github.com/EdneiFNeto/House-Manager-back).
+
+## Run App
+yarn start
