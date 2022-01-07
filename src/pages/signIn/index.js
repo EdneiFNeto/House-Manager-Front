@@ -1,11 +1,19 @@
 import React, { useRef } from "react";
-import './style.scss';
-import  { Link } from 'react-router-dom';
-
 import { api } from '../../service/api';
-import { Form } from "@unform/web";
-import Input from '../../components/Form/Input';
+
 import { swalerror, swalsuccessredirect } from '../../util/dialog/index';
+import { 
+  Container, 
+  Title, 
+  SubTitle, 
+  Input, 
+  Button,
+  MyLink, 
+  ContaineLink, 
+  MyForm,
+  ContainerForm,
+  ContainerTitle,
+} from './style';
 
 function SignIn() {
   const formRef = useRef(null);
@@ -30,38 +38,25 @@ function SignIn() {
   }
 
   return <>
-    <div className="page">
-      <div className="main">
-        <div className="main-wrapper">
-          <div className="login-methods">
-            <div className="login-methods-signup text-gold btn-gray ">
-              <Link to="/register" className="btn btn-link "> Register </Link>
-            </div>
-          </div>
-          
-          <Form onSubmit={handleSubmit} ref={formRef}>
+    <Container>
 
+      <ContainerTitle>
+        <Title>welcome</Title>
+        <SubTitle>Hello, wellcome in the House Manager</SubTitle>
+      </ContainerTitle>
+      
+      <ContainerForm>
+        <MyForm onSubmit={handleSubmit} ref={formRef}>
+          <Input name="email" className="input" type="email" placeholder="E-mail" />
+          <Input name="password" className="input" type="password" placeholder="Password" />
+          <Button type="submit">Sign In</Button>
+        </MyForm>
+      </ContainerForm>
 
-            <div className="form-body">
-                <Input name="email" className="input" type="email" 
-                  placeholder="E-mail" />
-                <Input name="password" className="input" type="password"
-                  placeholder="Password" />
-              <button type="submit">Sign In</button>
-            </div>
-
-            <div className="form-message">
-              <div className="form-message-title">
-                <h1>welcome</h1>
-              </div>
-              <div className="form-message-body">
-                <h3>Hello, wellcome in the House Manager</h3>
-              </div>
-            </div>
-          </Form>
-        </div>
-      </div>
-    </div>
+      <ContaineLink>
+        <MyLink to="/register"> Ainda não tenho conta </MyLink>
+      </ContaineLink> 
+    </Container>
   </>
 }
 
