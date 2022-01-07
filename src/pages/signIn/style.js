@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const ContainerTitle = styled.div`
-  margin-top: 10%;
+  margin-top: 5%;
 `;
 
 export const Title = styled.h1`
@@ -19,16 +19,18 @@ export const Title = styled.h1`
 export const SubTitle = styled.h3`
   color: #333;
   text-align: center;
+  font-size: 26px;
   margin-bottom: 12px;
 `;
 
 export const ContainerForm = styled.div`
   justify-content: center;
   display: flex;
+  margin-top: 12px;
 `;
 
 export const MyForm = styled(Form)`
-  padding: 10% 2%;
+  padding: 5% 2%;
   width: 50%;
   height: auto;
   border-radius: 12px;
@@ -41,7 +43,7 @@ export const Input = styled.input`
   width: 100%;
   border-radius: 12px;
   padding: 8px;
-  height: 40px;
+  height: 60px;
   margin-bottom: 12px;
   border-bottom: 1 solid #333;
 `;
@@ -53,7 +55,10 @@ export const Button = styled.button`
   border-radius: 12px;
   color: white;
   width: 100%;
+  height: 60px;
   font-weight: bold;
+  font-size: 22px;
+  text-transform: uppercase;
   &:hover {
     background-color: rgba(0, 0, 0, 0.9);
     cursor: pointer;
