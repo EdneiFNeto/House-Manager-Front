@@ -1,9 +1,15 @@
 import React, { useRef } from "react";
-import  { Link } from 'react-router-dom';
 import { api } from '../../service/api';
-
-import { Form } from "@unform/web";
-import Input from '../../components/Form/Input';
+import { 
+  Container, 
+  ContainerTitle,
+  Title, 
+  SubTitle, 
+  ContainerForm,
+  MyForm,
+  Input, 
+  Button,
+} from './style';
 import { swalerror, swalsuccessredirect } from '../../util/dialog/index'
 
 function Register() {
@@ -26,41 +32,21 @@ function Register() {
 
 
   return <>
-    <div className="page">
-      <div className="main">
-        <div className="main-wrapper">
-          <div className="login-methods">
-            <div className="login-methods-signup text-gold btn-gray ">
-              <Link to="/" className="btn btn-link "> Back </Link>
-            </div>
-          </div>
-          
-          <Form onSubmit={handleSubmit} ref={formRef}>
-            <div className="form-body">
-                <Input name="name" className="input" type="text" 
-                  placeholder="Name Profile" />
-                
-                <Input name="email" className="input" type="email" 
-                  placeholder="E-mail" />
-                
-                <Input name="password" className="input" type="password"
-                  placeholder="Password" />
-              <button type="submit">Register</button>
-            </div>
+    <Container>
+      <ContainerTitle>
+        <Title>welcome</Title>
+        <SubTitle>Hello, wellcome in the House Manager</SubTitle>
+      </ContainerTitle>
 
-
-            <div className="form-message">
-              <div className="form-message-title">
-                <h1>Register</h1>
-              </div>
-              <div className="form-message-body">
-                <h3>Register your profile and of Team</h3>
-              </div>
-            </div>
-          </Form>
-        </div>
-      </div>
-    </div>
+      <ContainerForm>
+        <MyForm onSubmit={handleSubmit} ref={formRef}>
+          <Input name="name" className="input" type="text" placeholder="Name Profile" />
+          <Input name="email" className="input" type="email" placeholder="E-mail" />
+          <Input name="password" className="input" type="password" placeholder="Password" />
+          <Button type="submit">Register</Button>
+        </MyForm>
+      </ContainerForm>
+    </Container>
   </>
 }
 
