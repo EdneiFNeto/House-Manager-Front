@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Form } from "@unform/web";
+import Input from '../../components/Form/Input';
 
 export const Container = styled.div`
   width: 100%;
@@ -37,7 +38,7 @@ export const MyForm = styled(Form)`
 
 `;
 
-export const Input = styled.input`
+export const MyInput = styled(Input)`
   border: none;
   width: 100%;
   border-radius: 12px;

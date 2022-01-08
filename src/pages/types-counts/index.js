@@ -10,11 +10,11 @@ import { dateActual } from '../../util/date/getMonthAndYearUtil'
 import { swalerror, swalsuccess } from '../../util/dialog/index'
 
 export default function TypesCounts(){
-  const [nameTypeCounts, setNameAtpeCout] = useState([
+  const nameTypeCounts = [
     { value: 'Light', label: 'Light' },
     { value: 'Água', label: 'Cedae' },
     { value: 'Credit Card', label: 'Credit Card' }
-  ]);
+  ];
 
   const [typeCounts, setTypesCounts] = useState([]);
 
@@ -90,22 +90,22 @@ export default function TypesCounts(){
       <SideBar />
       <div className="main-panel">
         
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-header card-header-primary">
-                    <h4 class="card-title">Add types accounts pay </h4>
-                    <p class="card-category">Add accounts payments your profiles</p>
+        <div className="content">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="card-header card-header-primary">
+                    <h4 className="card-title">Add types accounts pay </h4>
+                    <p className="card-category">Add accounts payments your profiles</p>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <Form onSubmit={handleSubmit} ref={formRef}>
-                      <div class="row">
+                      <div className="row">
                         
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label class="bmd-label-floating">Types accounts to the payments</label>
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label className="bmd-label-floating">Types accounts to the payments</label>
                             <Select
                               name="name"
                               options={nameTypeCounts}
@@ -114,8 +114,8 @@ export default function TypesCounts(){
                         </div>
                       </div>
                       
-                      <button type="submit" class="btn btn-primary pull-right">Add Types accounts to the payments</button>
-                      <div class="clearfix"></div>
+                      <button type="submit" className="btn btn-primary pull-right">Add Types accounts to the payments</button>
+                      <div className="clearfix"></div>
                     </Form>
                   </div>
                 </div>

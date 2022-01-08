@@ -7,7 +7,6 @@ import  { Link } from 'react-router-dom';
 import SideBar from '../sidebar';
 import Footer from '../footer';
 import Input from '../../components/Form/Input';
-import Checkbox from '../../components/Form/Checkbox';
 import Select from '../../components/Form/select';
 import { api } from '../../service/api';
 import { dateActual } from '../../util/date/getMonthAndYearUtil'
@@ -19,7 +18,7 @@ export default function Count(){
   const [typeCounts, setTypeCounts] = useState([]);
   const [accountsSelected, setAccountsSelected] = useState([]);
 
-  const [discounts, setDiscounts] = useState([
+  const discounts = [
     { value: 0.05, label: '5%'},
     { value: 0.10, label: '10%'},
     { value: 0.15, label: '15%'},
@@ -40,20 +39,20 @@ export default function Count(){
     { value: 0.90, label: '90%'},
     { value: 0.95, label: '95%'},
     { value: 100.0, label: '100%'},
-  ]);
+  ];
 
   const [discount, setDiscount] = useState(undefined)
   const [value, setValue] = useState(undefined)
   const [totalPay, setTotalPay] = useState(undefined);
 
-  const [persons, setTotalPersons] = useState([
+  const persons = [
     {value: 0, label: 'No body'},
     {value: 1, label: '1 Person'},
     {value: 2, label: '2 Person'},
     {value: 3, label: '3 Person'},
     {value: 4, label: '4 Person'},
     {value: 5, label: '5 Person'},
-  ]) 
+  ]
   
   const [counts, setCounts] = useState([]);
 
@@ -199,7 +198,7 @@ export default function Count(){
     const result = calc(amount, discount !== undefined ? discount.value : 1);
     setTotalPay(result);
     setValue(amount);
-  }, [totalPay, value]);
+  }, [totalPay, value, discount]);
 
   const recalcTotalPay = useCallback((e) => {
     setDiscount(e);
