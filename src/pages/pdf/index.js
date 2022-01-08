@@ -27,33 +27,33 @@ export default function PDF(props){
   }, [counts])
 
   const getValueReal = () => {
+      if(counts.length > 0){
 
-      const user = counts.map((c)=> {return c.user.name} )[0]
-      const cedae = counts.filter((c)=> c.typeCount.name === 'Água'  )[0]
-      const light = counts.filter((c)=> c.typeCount.name === 'Light'  )[0]
-      
-      setUser(user)
-      
-      if(cedae !== undefined && light !== undefined ){
-      
-        setCedae(cedae.typeCount.name)
-        setValueCedae(cedae.value)
+        const user = counts.map((c)=> {return c.user.name} )[0]
+        const cedae = counts.filter((c)=> c.type_account.name === 'Água'  )[0]
+        const light = counts.filter((c)=> c.type_account.name === 'Light'  )[0]
         
-        const calc = cedae.value - getTotal(counts)
-        const text = `(${cedae.typeCount.name}) R$${cedae.value} - (Total) R$${getTotal(counts)} = R$${Number(calc).toFixed(2)}`
+        setUser(user)
         
-        setObs(text)
-        setDiference(Number(calc).toFixed(2))
+        if(cedae !== undefined && light !== undefined ){
+          
+          setCedae(cedae.type_account.name)
+          setValueCedae(cedae.value)
+          
+          const calc = cedae.value - getTotal(counts)
+          const text = `(${cedae.type_account.name}) R$${cedae.value} - (Total) R$${getTotal(counts)} = R$${Number(calc).toFixed(2)}`
+          
+          setObs(text)
+          setDiference(Number(calc).toFixed(2))
+        }
     }
   }
 
-  
-  
 
   return (
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
+    <div className="content">
+      <div className="container-fluid">
+        <div className="row">
           <div className="col-sm-12">
             <h2 className="text-center pt-4">{ user }</h2>
             <h3 className="text-center">{ dateActual }</h3>
@@ -83,7 +83,7 @@ export default function PDF(props){
                         
                         <tr key={index}>
                           <td className="text-left">{count.id}</td>
-                          <td className="text-center">{count.typeCount.name}</td>
+                          <td className="text-center">{count.type_account.name}</td>
                           <td className="text-center">{format(new Date(parseISO(count.register_date)), "dd/MM/yyyy")}</td>
                           <td className="text-center">
                           <a role="button" className="btn btn-link btn-sm p-0" title={!count.status ? 'Pendente' : 'Pago'}>
