@@ -23,7 +23,6 @@ function SignIn() {
       await api.post("/login", { ...data })
         .then((response)=> {
           if(response.status === 200) {
-            console.log(response.data);
             localStorage.setItem("id", response.data.id);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("email", response.data.email);
