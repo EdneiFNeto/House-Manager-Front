@@ -6,7 +6,7 @@ import {
   Container, 
   Title, 
   SubTitle, 
-  Input, 
+  MyInput, 
   Button,
   MyLink, 
   ContaineLink, 
@@ -18,16 +18,15 @@ import {
 function SignIn() {
   const formRef = useRef(null);
 
-  async function handleSubmit(data, { reset }){
+  async function handleSubmit(data){
     try {
-      await api.post("/auth", { ...data })
+      await api.post("/login", { ...data })
         .then((response)=> {
           if(response.status === 200) {
-            console.log(response.data)
-            console.log('token', response.data.token);
-
-            localStorage.setItem("id", response.data.user.id);
+            console.log(response.data);
+            localStorage.setItem("id", response.data.id);
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("email", response.data.email);
             swalsuccessredirect('Authenticate User is Success!',false, '/painel');
           }
         })
@@ -47,8 +46,8 @@ function SignIn() {
       
       <ContainerForm>
         <MyForm onSubmit={handleSubmit} ref={formRef}>
-          <Input name="email" className="input" type="email" placeholder="E-mail" />
-          <Input name="password" className="input" type="password" placeholder="Password" />
+          <MyInput name="email" className="input" type="email" placeholder="E-mail" />
+          <MyInput name="password" className="input" type="password" placeholder="Password" />
           <Button type="submit">Sign In</Button>
         </MyForm>
       </ContainerForm>

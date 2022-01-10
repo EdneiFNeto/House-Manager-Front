@@ -7,7 +7,7 @@ import {
   SubTitle, 
   ContainerForm,
   MyForm,
-  Input, 
+  MyInput, 
   Button,
 } from './style';
 import { swalerror, swalsuccessredirect } from '../../util/dialog/index'
@@ -17,7 +17,7 @@ function Register() {
 
   async function handleSubmit(data, { reset }){
     try {
-      await api.post("/users", { ...data })
+      await api.post("/user", { ...data })
         .then((response)=> {
           if(response.status === 201) {
             swalsuccessredirect("Success register user", true, '/')
@@ -40,9 +40,9 @@ function Register() {
 
       <ContainerForm>
         <MyForm onSubmit={handleSubmit} ref={formRef}>
-          <Input name="name" className="input" type="text" placeholder="Name Profile" />
-          <Input name="email" className="input" type="email" placeholder="E-mail" />
-          <Input name="password" className="input" type="password" placeholder="Password" />
+          <MyInput name="name" className="input" type="text" placeholder="Name Profile" />
+          <MyInput name="email" className="input" type="email" placeholder="E-mail" />
+          <MyInput name="password" className="input" type="password" placeholder="Password" />
           <Button type="submit">Register</Button>
         </MyForm>
       </ContainerForm>

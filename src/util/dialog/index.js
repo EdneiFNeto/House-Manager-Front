@@ -8,15 +8,6 @@ const swalloader = async (content, timer, buttons, closeOnClickOutside) => {
   });
 };
 
-const swalSenha = async (content, timer, buttons, closeOnClickOutside) => {
-  return await swal(content, {
-    buttons: false,
-    closeOnClickOutside: closeOnClickOutside,
-    timer: timer,
-    icon: "success",
-  });
-};
-
 const swalerror = async (message, closeOnClickOutside) => {
   return await swal({
     icon: "error",

@@ -23,7 +23,7 @@ export default function Painel () {
   }, [])
 
   const getCount = async() =>{
-    await api.get(`counts/user/${localStorage.getItem("id")}`)
+    await api.get(`/account-user/${localStorage.getItem("id")}`)
     .then((response) => {
       if(response.status === 200){
         const arrayCount = response.data.filter((data) => { return data.status === false });
@@ -161,7 +161,7 @@ export default function Painel () {
                         {
                           accountToThePay.map((count, index) => (
                             <tr key={index}>
-                              <td className="text-center">{count.typeCount.name}</td>
+                              <td className="text-center">{count.type_account.name}</td>
                               <td className="text-center">{format(new Date(parseISO(count.register_date)), "dd/MM/yyyy")}</td>
                               <td className="text-center"> 
                               <a role="button" className="btn btn-link btn-sm p-0" title={!count.status ? 'Pendente' : 'Pago'}>

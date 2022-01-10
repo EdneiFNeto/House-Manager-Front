@@ -7,7 +7,6 @@ import  { Link } from 'react-router-dom';
 import SideBar from '../sidebar';
 import Footer from '../footer';
 import Input from '../../components/Form/Input';
-import Checkbox from '../../components/Form/Checkbox';
 import Select from '../../components/Form/select';
 import { api } from '../../service/api';
 import { dateActual } from '../../util/date/getMonthAndYearUtil'
@@ -19,7 +18,7 @@ export default function Count(){
   const [typeCounts, setTypeCounts] = useState([]);
   const [accountsSelected, setAccountsSelected] = useState([]);
 
-  const [discounts, setDiscounts] = useState([
+  const discounts = [
     { value: 0.05, label: '5%'},
     { value: 0.10, label: '10%'},
     { value: 0.15, label: '15%'},
@@ -40,20 +39,20 @@ export default function Count(){
     { value: 0.90, label: '90%'},
     { value: 0.95, label: '95%'},
     { value: 100.0, label: '100%'},
-  ]);
+  ];
 
   const [discount, setDiscount] = useState(undefined)
   const [value, setValue] = useState(undefined)
   const [totalPay, setTotalPay] = useState(undefined);
 
-  const [persons, setTotalPersons] = useState([
+  const persons = [
     {value: 0, label: 'No body'},
     {value: 1, label: '1 Person'},
     {value: 2, label: '2 Person'},
     {value: 3, label: '3 Person'},
     {value: 4, label: '4 Person'},
     {value: 5, label: '5 Person'},
-  ]) 
+  ]
   
   const [counts, setCounts] = useState([]);
 
@@ -65,7 +64,7 @@ export default function Count(){
   }, []);
 
   const getCount = async() =>{
-    await api.get(`counts/user/${localStorage.getItem("id")}`)
+    await api.get(`/account-user/${localStorage.getItem("id")}`)
     .then((response) => {
       if(response.status === 200){
         setCounts(response.data);
@@ -90,7 +89,7 @@ export default function Count(){
 
   const showDialogConfirm = (count) => {
     swal({
-      title: `Want to pay count the "${count.typeCount.name}"?`,
+      title: `Want to pay count the "${count.type_account.name}"?`,
       text: "Is action not back!",
       icon: "warning",
       buttons: true,
@@ -111,7 +110,7 @@ export default function Count(){
 
   const showDialogDeleteConfirm = (count) => {
     swal({
-      title: `Want to DELETE count the "${count.typeCount.name}"?`,
+      title: `Want to DELETE count the "${count.type_account.name}"?`,
       text: "Is action not back!",
       icon: "warning",
       buttons: true,
@@ -135,7 +134,7 @@ export default function Count(){
       status: true
     }
 
-    await api.put(`/counts/${count.id}`, data)
+    await api.put(`/account-user/${count.id}`, data)
       .then((response) => {
         if(response.status === 204){
           swalsuccess('Payment is Success!', true);
@@ -149,7 +148,7 @@ export default function Count(){
 
   const deleteCount = async (count) => {
     
-    await api.delete(`/counts/${count.id}`)
+    await api.delete(`/account-user/${count.id}`)
       .then((response) => {
         if(response.status === 200){
           swalsuccess('DELETE is Success!', true);
@@ -167,12 +166,12 @@ export default function Count(){
         type_id: data.type_id,
         value: data.value,
         discount: totalPay,
+        status: false,
         register_date: data.register_date,
         user_id: localStorage.getItem('id')
       }
 
-      console.log('dataRequest', dataRequest);
-      await api.post("/counts", dataRequest)
+      await api.post("/account-user", dataRequest)
         .then((response)=> {
           if(response.status === 201) {
             reset()
@@ -199,7 +198,7 @@ export default function Count(){
     const result = calc(amount, discount !== undefined ? discount.value : 1);
     setTotalPay(result);
     setValue(amount);
-  }, [totalPay, value]);
+  }, [totalPay, value, discount]);
 
   const recalcTotalPay = useCallback((e) => {
     setDiscount(e);
@@ -341,7 +340,7 @@ export default function Count(){
                                 </div>
                               </td>
                               <td className="text-left">{count.id}</td>
-                              <td className="text-center">{count.typeCount.name}</td>
+                              <td className="text-center">{count.type_account.name}</td>
                               <td className="text-center">{format(new Date(parseISO(count.register_date)), "dd/MM/yyyy")}</td>
                               <td className="text-center"> 
                               <a role="button" className="btn btn-link btn-sm p-0" title={!count.status ? 'Pendente' : 'Pago'}>
