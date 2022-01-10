@@ -26,7 +26,9 @@ de contas vencidas.
 Templete utilizado como exemplo para desenvolvimento do front da aplicação [creative-tim](https://www.creative-tim.com/).
 
 ## API
-Api Utilizado para realizar as consultas, cadastro e edições [House-Manager-Back](https://github.com/EdneiFNeto/House-Manager-back).
+- Api Utilizado para realizar as consultas, cadastro e edições [House-Manager-Back](https://github.com/EdneiFNeto/House-Manager-back).
+- Api Utilizado para realizar as consultas, cadastro e edições [House-Manager-Back-v2](https://github.com/EdneiFNeto/House-Manager-back-v2).
+
 
 ## Run App
 yarn start
