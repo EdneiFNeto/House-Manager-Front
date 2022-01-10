@@ -166,6 +166,7 @@ export default function Count(){
         type_id: data.type_id,
         value: data.value,
         discount: totalPay,
+        status: false,
         register_date: data.register_date,
         user_id: localStorage.getItem('id')
       }
